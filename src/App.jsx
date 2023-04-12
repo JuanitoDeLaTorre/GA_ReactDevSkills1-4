@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import SkillList from "./SkillList";
 import NewSkillForm from "./NewSkillForm";
 
@@ -12,9 +11,9 @@ function App() {
     { name: "JavaScript", level: 4 },
     { name: "Python", level: 2 }
   ]);
+  const [showToDo, setShowToDo] = useState(false)
+  const [buttonName, setButtonName] = useState('Show Add Form')
 
-  const name = useRef()
-  const level = useRef()
 
   function handleAddSkill(newSkill) {
     console.log(newSkill)
@@ -22,17 +21,21 @@ function App() {
 
   }
 
-  Array.from(skills).map((skill)=> {
-    console.log(skill.name)
-})
+  function handleButtonClick() {
+    setShowToDo(!showToDo)
+    if (buttonName === "Show Add Form")
+      return setButtonName('Hide Add Form')
+    else
+      return setButtonName('Show Add Form')
+  }
 
   return (
     <div className="App">
       <h1>React Dev Skills</h1>
       <SkillList skills={skills} />
+      <button id = "showHideButton" onClick={handleButtonClick}>{buttonName}</button>
       <hr></hr>
-      <NewSkillForm addSkill = {handleAddSkill}/>
-      <hr />
+      {showToDo && <NewSkillForm addSkill = {handleAddSkill}/>}
     </div>
   );
 }
